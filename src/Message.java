@@ -2,7 +2,8 @@ public class Message {
     /**
      * contructor
      */
-    public Message(){
+    public Message(String message){
+        this.value = message;
     }
     /**
      * method to get the message string
