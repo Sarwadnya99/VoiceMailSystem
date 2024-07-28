@@ -6,8 +6,8 @@ public class MailSystem {
     /**
      * Constructor
      */
-    public MailSystem(){
-
+    public MailSystem(ArrayList<Mailbox> mailboxesList){
+        this.mailBoxes = mailboxesList;
     }
     /**
      * method to tell the user that the voice mail system has accepted their connection request

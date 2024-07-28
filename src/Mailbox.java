@@ -8,7 +8,12 @@ public class Mailbox {
     /**
      * contructor with zero arguments
      */
-    public Mailbox(){
+    public Mailbox(int ID, String greeting, String passcode, Queue<Message> newTexts, Queue<Message> savedTexts){
+        this.inboxID = ID;
+        this.greeting = greeting;
+        this.passcode  = passcode;
+        this.newMessages = newTexts;
+        this.savedMessages = savedTexts;
     }
 
     /**
