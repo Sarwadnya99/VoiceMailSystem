@@ -8,10 +8,12 @@ public class App {
         Telephone telephone = new Telephone(mailSystem);
         telephone.callTheMainLine();
         int boxID = telephone.getMailboxNumberFromUser();
-        telephone.getMailbox(boxID);
-        Message message = telephone.getMessageFromUser();
-        if(telephone.sendMessageToMailBox(message))
-            System.out.println("Message received successfully!!");
+        while(boxID != -1){
+            telephone.getMailbox(boxID);
+            Message message = telephone.getMessageFromUser();
+            telephone.sendMessageToMailBox(message);
+            boxID = telephone.getMailboxNumberFromUser();
+        }
     }
     private static MailSystem getSystem(){
         ArrayList<Mailbox> mailboxes = new ArrayList<>();

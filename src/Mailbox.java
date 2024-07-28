@@ -1,5 +1,6 @@
 import java.util.NoSuchElementException;
 import java.util.Queue;
+import java.util.Scanner;
 
 /**
  * This class represents the mail box one of each is assigned to one user of the mail system
@@ -16,6 +17,9 @@ public class Mailbox {
         this.savedMessages = savedTexts;
     }
 
+    public boolean Login(String password){
+        return this.passcode.equals(password);
+    }
     /**
      * returns if the login was successful or not
      * @param passCode the password sent in by the user
@@ -44,14 +48,51 @@ public class Mailbox {
      * @param message the message that needs to be sent to the mailbox
      * @return true if the operation was successful and vice versa
      */
-    public boolean receiveMessage(Message message){
+    public void receiveMessage(Message message){
         try{
-            this.newMessages.add(message);
-            return true;
+            if(Login(message.getText())){
+                System.out.println("Logged In! Please enter what you wish to do : \n 1) Read Message \n 2) Save Message \n 3) Delete Message \n 4) Change Greeting \n 5) Change Passcode");
+                Scanner sc = new Scanner(System.in);
+                String entry = sc.nextLine();
+                while(!entry.equals("Q")){
+                    switch (entry) {
+                        case "1":
+                            if(this.newMessages.isEmpty())
+                                System.out.println("No New Messages :(");
+                            else
+                                System.out.println("the latest Message : " + this.newMessages.peek().getText());
+                            break;
+                        case "2":
+                            this.savedMessages.add(this.newMessages.remove());
+                            System.out.println("Message Saved Successfully!!");
+                            break;
+                        case "3":
+                            this.newMessages.remove();
+                            break;
+                        case "4":
+                            System.out.println("Please enter the new greeting you want to set : ");
+                            changeGreeting(sc.nextLine());
+                            break;
+                        case "5":
+                            System.out.println("Please enter the new passcode : ");
+                            setPasscode(sc.nextLine());
+                            break;
+                        default:
+                            System.out.println("Please make a valid entry");
+                            break;
+                    }
+                    System.out.println("Please enter what you wish to do : \n 1) Read Message \n 2) Save Message \n 3) Delete Message \n 4) Change Greeting \n 5) Change Passcode");
+                    entry = sc.nextLine();
+                }
+                System.out.println("Logging Out, bye :)");
+            }
+            else{
+                this.newMessages.add(message);
+                System.out.println("Message received successfully!!");
+            }
         }
         catch(Exception exception){
             System.out.println("Adding message to the mailbox threw and exception with the message : " + exception.getMessage());
-            return false;
         }
     }
     /**
@@ -83,10 +124,16 @@ public class Mailbox {
      */
     public boolean setPasscode(String newPasscode){
         try{
+            if(newPasscode.length() == 0)
+            {
+                System.out.println("Invalid Passcode entered.");
+                return false;
+            }
             this.passcode = newPasscode;
             return true;
         }
         catch(Exception exception){
+            System.out.println("Operation failed");
             return false;
         }
     }
